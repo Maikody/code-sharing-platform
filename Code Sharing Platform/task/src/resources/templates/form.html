@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="utf-8">
+        <title>Create</title>
+        <link rel="stylesheet"
+              href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/default.min.css">
+        <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <style>
+            code_field {
+                height: 200px
+                width: 600px
+            }
+        </style>
+    </head>
+    <body>
+
+<!--        <form th:action="@{/code/post}" th:object="${newCode}" th:method="post">-->
+            <p id="code_field"><textarea id="code_snippet">//enter your code here</textarea></p>
+            <p>Time restriction: <input id="time_restriction" type="text"></p>
+            <p>Views restriction: <input id="views_restriction" type="text"></p>
+            <button id="send_snippet" type="submit" onclick="send()">Submit</button>
+<!--        </form>-->
+
+        <script>
+            function send() {
+                let object = {
+                   "code": document.getElementById("code_snippet").value,
+                   "time": document.getElementById("time_restriction").value,
+                   "views": document.getElementById("views_restriction").value
+                };
+
+                let json = JSON.stringify(object);
+
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", '/api/code/new', false)
+                xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                xhr.send(json);
+
+                if (xhr.status == 200) {
+                    alert("Success!");
+                }
+            }
+        </script>
+    </body>
+</html>
